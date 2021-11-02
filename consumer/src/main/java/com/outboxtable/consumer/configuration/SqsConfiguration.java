@@ -14,24 +14,19 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
-import com.amazon.sqs.javamessaging.AmazonSQSMessagingClientWrapper;
 import com.amazon.sqs.javamessaging.ProviderConfiguration;
 import com.amazon.sqs.javamessaging.SQSConnection;
 import com.amazon.sqs.javamessaging.SQSConnectionFactory;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.outboxtable.consumer.repository.SpendingRepository;
-import com.outboxtable.consumer.service.SpendingService;
-import com.outboxtable.consumer.sqs.SqsListener;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableJms
-@ComponentScan(basePackages = {"com.outboxtable.*"})
+@ComponentScan(basePackages = {"com.outboxtable.consumer*"})
 @RequiredArgsConstructor
-@EnableJpaRepositories(basePackages = {"com.outboxtable.repository"})
-@EntityScan(basePackages = {"com.outboxtable.entity"})
+@EnableJpaRepositories(basePackages = {"com.outboxtable.consumer.repository"})
+@EntityScan(basePackages = {"com.outboxtable.consumer.entity"})
 public class SqsConfiguration {
 
 	@Value("${application.queue-outboxtable.name:sqs_outboxtable_project}")
