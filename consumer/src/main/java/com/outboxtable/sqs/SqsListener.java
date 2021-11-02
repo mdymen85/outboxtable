@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SqsListener {
 
-    @JmsListener(destination = "${application.queue-outboxtable.name:sqs_outboxtable_project}")
+    @JmsListener(destination = "${application.queue-outboxtable.name:sqs_outboxtable_project}", containerFactory = "createSQSConnectionFactory")
     public void messageConsumer(@Headers Map<String, Object> messageAttributes,
                        @Payload String message) {
         // Do something

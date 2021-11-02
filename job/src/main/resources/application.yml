@@ -10,6 +10,6 @@
 
 application:
   job-outboxtable:
-    enabled: true
+    enabled: false
   queue-outboxtable:
     name: sqs_outboxtable_project 
