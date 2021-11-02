@@ -1,9 +1,15 @@
 
-spring:
-  datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/outboxtable_db?allowPublicKeyRetrieval=true&autoReconnect=true
-    username: root
-    password: mdymen_pass
-    driver-class-name: com.mysql.jdbc.Driver
-    jpa:
-      show-sql: true
+#spring:
+#  datasource:
+#    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/outboxtable_db?allowPublicKeyRetrieval=true&autoReconnect=true
+#    username: root
+#    password: mdymen_pass
+#    driver-class-name: com.mysql.jdbc.Driver
+#    jpa:
+#      show-sql: true
+
+application:
+  job-outboxtable:
+    enabled: true
+  queue-outboxtable:
+    name: sqs_outboxtable_project 
