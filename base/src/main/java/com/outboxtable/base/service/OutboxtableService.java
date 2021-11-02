@@ -18,6 +18,9 @@ public class OutboxtableService {
 	private final OutboxtableRepository outboxtableRepository;
 	
 	public List<Outboxtable> getOutboxtableNotIntegrated() {
-		return outboxtableRepository.findByIntegrated(false);
+		
+		log.info("Searching for registries that has not been integrated.");
+		
+		return outboxtableRepository.findAll();
 	}
 }

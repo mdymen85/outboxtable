@@ -1,4 +1,4 @@
-package com.outboxtable.base.dto;
+package com.outboxtable.consumer.dto;
 
 import java.math.BigDecimal;
 import lombok.Data;

@@ -19,7 +19,7 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClient;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.outboxtable.sqs.SqsSender;
+import com.outboxtable.job.sqs.SqsSender;
 
 @Configuration
 public class SqsConfiguration {

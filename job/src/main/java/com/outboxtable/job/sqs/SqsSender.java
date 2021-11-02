@@ -1,4 +1,4 @@
-package com.outboxtable.sqs;
+package com.outboxtable.job.sqs;
 
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;

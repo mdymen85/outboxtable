@@ -26,7 +26,12 @@ public class SpendingService {
 		
 		final Spending result = this.spendingRepository.save(spending);
 		
+		log.info("New registry entering in the flow {}.", spending);
+		
 		try {
+			
+			log.info("New registry gonna be saved in the outbox table {}.", spending);
+			
 			this.outboxtableRepository.save(Outboxtable.builder()
 					.identity(spending.getIdentity())
 					.message(objectMapper.writeValueAsString(result))
