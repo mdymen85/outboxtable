@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+  outboxtable-consumer-mysql:
+    container_name: outboxtable-consumer-mysql
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=mdymen_pass
+    volumes:
+      - "./src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql"
+    networks: 
+      - base_default      
+  outboxtable-consumer:
+    container_name: outboxtable-consumer
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - 8083:8080
+    environment:
+      - AWS_REGION=${region}
+      - AWS_ACCESS_KEY=${access_key}
+      - AWS_SECRET_ACCESS_KEY=${secret_access_key}  
+    networks: 
+      - base_default      
+    depends_on:
+      - outboxtable-consumer-mysql
+      
+networks: 
+  base_default:
+    external: true          

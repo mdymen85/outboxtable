@@ -31,8 +31,4 @@ public class Outboxtable {
 	@Column(name="MESSAGE", nullable = false)
 	private String message;
 	
-	@Column(name="INTEGRATED", nullable = false)
-	@Builder.Default
-	private boolean integrated = false;
-	
 }

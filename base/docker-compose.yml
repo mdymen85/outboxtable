@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  outboxtable-base-mysql:
+    container_name: outboxtable-base-mysql
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=mdymen_pass
+    volumes:
+      - "./src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql"
+  outboxtable-base:
+    container_name: outboxtable-base
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - 8081:8080
+    depends_on:
+      - outboxtable-base-mysql

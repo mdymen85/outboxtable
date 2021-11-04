@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3307/consumed_outboxtable_db?allowPublicKeyRetrieval=true&autoReconnect=true
+    url: jdbc:mysql://${MYSQL_HOST:outboxtable-consumer-mysql}:3306/consumed_outboxtable_db?allowPublicKeyRetrieval=true&autoReconnect=true
     username: root
     password: mdymen_pass
     driver-class-name: com.mysql.jdbc.Driver
