@@ -1,0 +1,79 @@
+Description: Create an EC2 instance by AWS CloudFormation
+Resources:
+  SecurityGroupDemoSvrTraffic:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: sgDemoSvr
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: '0.0.0.0/0'
+        Description: "For traffic from Internet"
+      - IpProtocol: tcp
+        FromPort: '8080'
+        ToPort: '8080'
+        CidrIp: '0.0.0.0/0'
+        Description: "For traffic from Internet"             
+      GroupDescription: "Security Group for demo server"
+      VpcId: vpc-06540f5331e97d85a
+  EC2InstanceDemoSvr1:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1d
+      BlockDeviceMappings:
+      - DeviceName: /dev/sda1
+        Ebs:
+          DeleteOnTermination: 'true'
+          VolumeSize: '8'
+          VolumeType: gp2
+      ImageId: ami-083654bd07b5da81d
+      InstanceType: t1.micro
+      KeyName: mdymen
+      NetworkInterfaces:
+      - Description: "Primary network interface"
+        DeviceIndex: "0"
+        SubnetId: subnet-056ceb1856e2d326e
+        PrivateIpAddress: 172.31.16.4
+        GroupSet:
+        - Ref: SecurityGroupDemoSvrTraffic
+  EC2InstanceDemoSvr2:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1d
+      BlockDeviceMappings:
+      - DeviceName: /dev/sda1
+        Ebs:
+          DeleteOnTermination: 'true'
+          VolumeSize: '8'
+          VolumeType: gp2
+      ImageId: ami-083654bd07b5da81d
+      InstanceType: t1.micro
+      KeyName: mdymen
+      NetworkInterfaces:
+      - Description: "Primary network interface"
+        DeviceIndex: "0"
+        SubnetId: subnet-056ceb1856e2d326e
+        PrivateIpAddress: 172.31.16.5
+        GroupSet:
+        - Ref: SecurityGroupDemoSvrTraffic        
+  EC2InstanceDemoSvr3:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1d
+      BlockDeviceMappings:
+      - DeviceName: /dev/sda1
+        Ebs:
+          DeleteOnTermination: 'true'
+          VolumeSize: '8'
+          VolumeType: gp2
+      ImageId: ami-083654bd07b5da81d
+      InstanceType: t1.micro
+      KeyName: mdymen
+      NetworkInterfaces:
+      - Description: "Primary network interface"
+        DeviceIndex: "0"
+        SubnetId: subnet-056ceb1856e2d326e
+        PrivateIpAddress: 172.31.16.6
+        GroupSet:
+        - Ref: SecurityGroupDemoSvrTraffic                
