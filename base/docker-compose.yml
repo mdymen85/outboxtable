@@ -12,7 +12,7 @@ services:
     volumes:
       - "./src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql"
   outboxtable-base:
-    container_name: outboxtable-base
+    container_name: mdymen85/outboxtable-base
     build:
       dockerfile: Dockerfile
       context: .

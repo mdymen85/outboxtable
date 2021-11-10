@@ -1,5 +1,42 @@
 Description: Create an EC2 instance by AWS CloudFormation
 Resources:
+
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: perfil-Sqs
+      Roles:
+        - Ref: SqsRole
+
+  SqsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  PolicyList:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: PolicyList
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - sqs:*
+            Resource: '*'
+      Roles: 
+        - !Ref SqsRole
+          
+
+
   SecurityGroupDemoSvrTraffic:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -9,12 +46,22 @@ Resources:
         FromPort: '22'
         ToPort: '22'
         CidrIp: '0.0.0.0/0'
-        Description: "For traffic from Internet"
+        Description: "SSH"
       - IpProtocol: tcp
         FromPort: '8080'
         ToPort: '8080'
         CidrIp: '0.0.0.0/0'
         Description: "For traffic from Internet"             
+      - IpProtocol: tcp
+        FromPort: '8081'
+        ToPort: '8081'
+        CidrIp: '0.0.0.0/0'
+        Description: "For traffic from Internet"                     
+      - IpProtocol: tcp
+        FromPort: '3306'
+        ToPort: '3306'
+        CidrIp: '0.0.0.0/0'
+        Description: "Mysql"         
       GroupDescription: "Security Group for demo server"
       VpcId: vpc-06540f5331e97d85a
   EC2InstanceDemoSvr1:
@@ -28,8 +75,21 @@ Resources:
           VolumeSize: '8'
           VolumeType: gp2
       ImageId: ami-083654bd07b5da81d
-      InstanceType: t1.micro
+      InstanceType: t2.micro
       KeyName: mdymen
+      UserData:
+        Fn::Base64: !Sub |     # No more Fn::Join needed
+          #!/bin/bash
+          wget https://mdymen-cloudformation-bucket.s3.amazonaws.com/data.sql
+          sudo apt-get update
+          sudo apt install docker -y      
+          curl -sSL https://get.docker.com/ | sh
+          sudo service docker start
+          sudo usermod -a -G docker ubuntu
+          sudo docker network create first-app     
+          sudo docker run --net first-app --name outboxtable-base-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mdymen_pass -d mysql:latest
+          sudo docker exec -i outboxtable-base-mysql sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < /data.sql
+          sudo docker run --net first-app --name outboxtable-base -p 8081:8080 -d mdymen85/outboxtable-base:latest          
       NetworkInterfaces:
       - Description: "Primary network interface"
         DeviceIndex: "0"
@@ -39,7 +99,7 @@ Resources:
         - Ref: SecurityGroupDemoSvrTraffic
   EC2InstanceDemoSvr2:
     Type: AWS::EC2::Instance
-    Properties:
+    Properties:         
       AvailabilityZone: us-east-1d
       BlockDeviceMappings:
       - DeviceName: /dev/sda1
@@ -48,15 +108,25 @@ Resources:
           VolumeSize: '8'
           VolumeType: gp2
       ImageId: ami-083654bd07b5da81d
-      InstanceType: t1.micro
+      InstanceType: t2.micro
       KeyName: mdymen
+      UserData:
+        Fn::Base64: !Sub |     # No more Fn::Join needed
+          #!/bin/bash
+          wget https://mdymen-cloudformation-bucket.s3.amazonaws.com/data.sql
+          sudo apt-get update
+          sudo apt install docker -y      
+          curl -sSL https://get.docker.com/ | sh
+          sudo service docker start
+          sudo usermod -a -G docker ubuntu
+          sudo docker run --name outboxtable-base -p 8080:8080 -e MYSQL_HOST=172.31.16.4 -d mdymen85/outboxtable-job:latest         
       NetworkInterfaces:
       - Description: "Primary network interface"
         DeviceIndex: "0"
         SubnetId: subnet-056ceb1856e2d326e
         PrivateIpAddress: 172.31.16.5
         GroupSet:
-        - Ref: SecurityGroupDemoSvrTraffic        
+        - Ref: SecurityGroupDemoSvrTraffic 
   EC2InstanceDemoSvr3:
     Type: AWS::EC2::Instance
     Properties:
@@ -68,8 +138,21 @@ Resources:
           VolumeSize: '8'
           VolumeType: gp2
       ImageId: ami-083654bd07b5da81d
-      InstanceType: t1.micro
+      InstanceType: t2.micro
       KeyName: mdymen
+      UserData:
+        Fn::Base64: !Sub |     # No more Fn::Join needed
+          #!/bin/bash
+          wget https://mdymen-cloudformation-bucket.s3.amazonaws.com/data_consumer.sql
+          sudo apt-get update
+          sudo apt install docker -y      
+          curl -sSL https://get.docker.com/ | sh
+          sudo service docker start
+          sudo usermod -a -G docker ubuntu
+          sudo docker network create first-app     
+          sudo docker run --net first-app --name outboxtable-consumer-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mdymen_pass -d mysql:latest
+          sudo docker exec -i outboxtable-consumer-mysql sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < /data_consumer.sql
+          sudo docker run --net first-app --name outboxtable-consumer -p 8081:8080 -d mdymen85/outboxtable-consumer:latest         
       NetworkInterfaces:
       - Description: "Primary network interface"
         DeviceIndex: "0"
