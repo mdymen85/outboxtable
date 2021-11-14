@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    
+    environment {
+        AWS_DEFAULT_REGION="us-east-1"
+    }
+
+    stages {
+        stage('CreateStack') {
+            steps {
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh 'aws cloudformation create-stack --stack-name outboxtable --template-url https://mdymen-cloudformation-bucket.s3.amazonaws.com/cloudformation.yml --capabilities CAPABILITY_NAMED_IAM'
+                }                
+            }
+        }
+    }
+}
