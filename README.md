@@ -30,7 +30,7 @@ curl --location --request POST '<<HOST>>:8081/api/v1/spending' \
 
 ```
 
-This message will be recorded in two tables, in a database that only module **base**: **obt_spending**, and other table that will be used for a **job**, called: **obt**.
+This message will be recorded in two tables, in a database that only module **base** has access. One table is: **obt_spending**, and other, that will be used for a **job**, called: **obt**.
 
 The second module: **job**, will read from that database in module **base** and the table mentioned before, and post that message in a **SQS queue**. 
 
