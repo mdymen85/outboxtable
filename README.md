@@ -80,7 +80,3 @@ Module: **consumer**
 
 There is a file that can be used to deploy all the stack in aws: **cloudformation.yml** with 3 instances EC2, security group and the policy to communicate between instances. But, also, in the root directory is a Jenkinsfile with the name: **Jenkinsfile-cloudformation** that has the code to run the stack in AWS environment in a CI/CD way. That script pick the cloudformation file from an S3 bucket -the same file that is published in the project root.- That cloudformation file has all the necessary to pull docker and docker's images in instances, so it's not necessary to do something else, just run the cloudformation file to create the stack and run the pattern.
 
-
-
-
-
