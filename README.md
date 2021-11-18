@@ -30,7 +30,7 @@ curl --location --request POST '<<HOST>>:8081/api/v1/spending' \
 
 ```
 
-![](https://github.com/mdymen85/outboxtable/blob/main/outboxtable_diagram.png)
+![](https://github.com/mdymen85/outboxtable/blob/main/outboxtable.drawio.png)
 
 
 This will be recorded in two tables: **obt_spending**, and other table that will be used for a **job**, called: **obt**.
