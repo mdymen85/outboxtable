@@ -35,7 +35,7 @@ The second module: **job**, will read from that database in module **base** and 
 
 The third module: **consumer**, will pick that message posted in the queue and will save that information in their database, in the table **obt_spending**
 
-[](https://github.com/mdymen85/outboxtable/blob/main/outboxtable_diagram.png)
+![](https://github.com/mdymen85/outboxtable/blob/main/outboxtable_diagram.png)
 
 ### Docker
 
