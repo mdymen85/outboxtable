@@ -35,22 +35,7 @@ The second module: **job**, will read from that database in module **base** and 
 
 The third module: **consumer**, will pick that message posted in the queue and will save that information in their database, in the table **obt_spending**
 
-```mermaid
-sequenceDiagram
-    External_System->>+Base: spending
-    loop save
-      Base-->Base: save in <<obt_spending>> table
-    end
-    loop save
-      Base-->Base: save in <<obt>> table
-    end   
-    Job->>+Base: read <<obt>> table
-    Job->>+Queue_SQS: send to queue
-    Consumer-->Queue_SQS: consumes data
-    loop save
-      Consumer-->Consumer: save in <<obt_spending>>
-    end
-```
+[](https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=outboxtable#R5VrLlto4EP0alj0HP4FloDvJyemZPFhMssoRWG0rI1seWW6afH1KWH7KBjfgGQgbsAo9696qUpUZWYvw5R1HcfAn8zAdmWPvZWTdj0zTsJwxfEnJNpNMTSXwOfFUp1KwJD%2BxEubdUuLhpNZRMEYFievCNYsivBY1GeKcberdnhitrxojH2uC5RpRXfo38USQn2JSyt9j4gf5yoY7y34JUd5ZnSQJkMc2FZH1MLIWnDGRPYUvC0yl8nK9ZOPedvxabIzjSPQZ8DX98GHjPU4WwXgxDr%2F9iD7%2B9XSnZnlGNFUHhqNTzNWWxTbXA%2Bw%2Blo9pSB%2FJE6YkgtY8xpyEWEB%2F654q8adSNt8EROBljNZy6AYYArJAhBRaBjwCaALBEF60KUVxQla7Vccg4Xid8oQ84y84ybghpSwVcqVFgbkUqpNgLvBLp4qMQvHAWMxgn3wLXdQAV0GluDpTzU0JvDFWsqACupULkSKbX8xc4gEPCpJXwGNp8KxQgm8THGN6aejkPqoCjwZNRaExI5HY7cGZj5z7BkKMi4D5LEK0ilEvvXVTp1OZtlPT5bRNl7oqzeFUqTuiK1WlYfXTpT2YKk1NlQl6xnJYNJIxwqWwhfkKfLzri51iXBRK46d6i63E9yTGkUciv%2FilPipvNWYVSDqKJobYg%2BiqmiVMD6W06oEQJX4knRd%2BkjMm4KpgG4%2B71j0gMod9vZExHporytb%2FSJ%2FE0sjDnnI7gCvfflXT7Rrfag5Jbqd%2Bt0Dcx%2Fu4YJxIGo4pEuAy6xeVFg6ooZ8k00uyOXUfaBgNFiUs5WusBpVEAi2hbaWbsp%2FOZabty5S0zCYsSVqc8ATe6sHuWl3A5P92AfZ5XcAtWP6FGLTj%2FCcGrZZpNWh9j016N%2FaYOU1tj%2BdyDKbuGDgWKY%2F2uQdp5ARymTeKSSsmBAvrzGEQ2EDioSTY8SajSp6ETjVOncScPrFlGIbV0dPucB0M0%2Ba5Mw9MNDANdJ%2F2g600CtxEKlSkNJeTCrktNoq8LNgcH1quw77tQezWntbNzTKPtFt3sn%2Biod23no9czr2uA7ocAruuOaPfvW46lJU5miaXn5d3n1Oc3mhNyDaPdITWUBCZepi6HLY7%2B5XZiO89CxmDsV0PKUC%2FJA1vtTrt2EeSfTZY1J%2B1kD1LBz3ynOeDCjXITsbwmcgXLqoTLFrpdy3hXvHy4HW%2Bw9rOmzCaTXD7X%2BcPTDT0teCSi%2Bfuaxyl1fNaMFi5x9SL541yzxnqu79bOacD4lOt02hQw%2Bplna8u57Qv07Oc49YHW409Dm34%2Bi32Sg2%2FeF98wPCNwdLuiaZKj4B1iXVwajBtN8Mextb3RUpHObWiyvxieaJJFu9I8vJl88LaN2IaswMTDWw4ho52AohJZTP4%2BLc1Dbw02M2OjPv8uFuNm5Jl9yut64UYd%2FaHs3%2Bqo5GHZvkPoKx7%2BT8q6%2BEX)
 
 ### Docker
 
