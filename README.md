@@ -29,13 +29,15 @@ curl --location --request POST '<<HOST>>:8081/api/v1/spending' \
 }'
 
 ```
+
+![](https://github.com/mdymen85/outboxtable/blob/main/outboxtable_diagram.png)
+
+
 This will be recorded in two tables: **obt_spending**, and other table that will be used for a **job**, called: **obt**.
 
 The second module: **job**, will read from that database in module **base** and the table mentioned before, and post that message in a **SQS queue**. 
 
 The third module: **consumer**, will pick that message posted in the queue and will save that information in their database, in the table **obt_spending**
-
-![](https://github.com/mdymen85/outboxtable/blob/main/outboxtable_diagram.png)
 
 ### Docker
 
