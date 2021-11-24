@@ -73,7 +73,7 @@ Its needed to configure the **AWS_ACCESS_KEY** and **AWS_SECRET_ACCESS_KEY** in 
 
 I can change the cloudformation file to remove hardcoded configuration as, for example, keypair name, to pass as parameter in aws-cli or, if the file is uploaded in the aws console, it is possible to add manually the parameters.
 
-In the user.data i wrote a sleep, because i wanted to force the docker to wait until the database starts, and then apply the sql file. I think its not a beauty approach. Maybe if i use healthcheck to check de health of the docker, i can wait until the docker is up. This might be do the job:
+In the user.data i wrote a sleep, because i wanted to force the docker to wait until the database starts, and then apply the sql file. I think its not a beauty approach. Maybe if i use healthcheck to check de health of the docker, i can wait until the docker is up. The following code might do the job:
 
 
 ```
