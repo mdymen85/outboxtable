@@ -68,3 +68,26 @@ There is a file that can be used to deploy all the stack in aws: **cloudformatio
 
 Its needed to configure the **AWS_ACCESS_KEY** and **AWS_SECRET_ACCESS_KEY** in Jenkins, in order to work the conection to **AWS** from **jenkins**.
 
+
+### Improvment points
+
+I can change the cloudformation file to remove hardcoded configuration as, for example, keypair name, to pass as parameter in aws-cli or, if the file is uploaded in the aws console, it is possible to add manually the parameters.
+
+In the user.data i wrote a sleep, because i wanted to force the docker to wait until the database starts, and then apply the sql file. I think its not a beauty approach. Maybe if i use healthcheck to check de health of the docker, i can wait until the docker is up. This might be do the job:
+
+
+```
+#!/bin/bash
+
+container=0
+
+until [ $container == healthy ]
+do
+container=$(docker inspect --format='{{.State.Health.Status}}' concurrency)
+echo "${container}"
+sleep 5
+done
+```
+
+Also, because the database dockers are in the same instance as the application developed, it would be better to run as docker-compose -the application and the database-.
+
