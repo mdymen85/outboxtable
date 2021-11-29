@@ -1,21 +1,21 @@
-## Outboxtable
+# Outboxtable
 
 from: https://microservices.io/patterns/data/transactional-outbox.html
 
-### Problem
+## Problem
 How to reliably/atomically update the database and send messages/events?
 
-### Forces
+## Forces
 -   2PC is not an option
 -   If the database transaction commits messages must be sent. Conversely, if the database rolls back, the messages must not be sent
 -   Messages must be sent to the message broker in the order they were sent by the service. This ordering must be preserved across multiple service instances that update the same aggregate.
 
-### Solution
+## Solution
 A service that uses a relational database inserts messages/events into an _outbox_ table (e.g. `MESSAGE`) as part of the local transaction. An service that uses a NoSQL database appends the messages/events to attribute of the record (e.g. document or item) being updated. A separate _Message Relay_ process publishes the events inserted into database to a message broker.
 
 ![](https://microservices.io/i/patterns/data/ReliablePublication.png)
 
-### My solution
+## My solution
 
 I created three separeted modules that runs in differente EC2 instsances, the first one: **base**, has an API rest that receives a post:
 ```
@@ -38,7 +38,7 @@ The third module: **consumer**, will pick that message posted in the queue and w
 
 ![](https://github.com/mdymen85/outboxtable/blob/main/outboxtable.drawio.png)
 
-### Docker
+## Docker
 
 Each module can run in a differente instance, and can be pulled in my docker hub, as:
 
@@ -62,14 +62,14 @@ Module: **consumer**
 
 
 
-### Cloudformation and Jenkins
+## Cloudformation and Jenkins
 
 There is a file that can be used to deploy all the stack in aws: **cloudformation.yml** with 3 instances EC2, security group and the policy to communicate between instances. But, also, in the root directory is a **Jenkinsfile** with the name: **Jenkinsfile-cloudformation** that has the code to run the stack in **AWS** environment in a CI/CD way. That script pick the cloudformation file from an S3 bucket -the same file that is published in the project root.- That cloudformation file has all the necessary to pull docker and docker's images in instances, so it's not necessary to do something else, just run the cloudformation file to create the stack and run the pattern.
 
 Its needed to configure the **AWS_ACCESS_KEY** and **AWS_SECRET_ACCESS_KEY** in Jenkins, in order to work the conection to **AWS** from **jenkins**.
 
 
-### Improvment points
+## Improvment points
 
 I can change the cloudformation file to remove hardcoded configuration as, for example, keypair name, to pass as parameter in aws-cli or, if the file is uploaded in the aws console, it is possible to add manually the parameters.
 
